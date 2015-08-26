@@ -16,15 +16,11 @@
 
 package com.example.android.testing.blueprint.test;
 
-import android.content.Context;
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.MediumTest;
-
+import com.example.android.testing.blueprint.HelloTestingBlueprintActivity;
 import com.example.android.testing.blueprint.R;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import android.content.Context;
+import android.test.ActivityInstrumentationTestCase2;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -35,21 +31,22 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * A simple integration test which checks the validity of a string loaded from resources.
  */
-@RunWith(AndroidJUnit4.class)
-@MediumTest
-public class AndroidTestOnlyModuleTest {
+public class AndroidTestOnlyModuleTest
+        extends ActivityInstrumentationTestCase2<HelloTestingBlueprintActivity> {
 
     private Context mContext;
 
-    @Before
-    public void initTargetContext() {
+    public AndroidTestOnlyModuleTest() {
+        super(HelloTestingBlueprintActivity.class);
+    }
+
+    public void setUp() {
         // Obtain the target context from InstrumentationRegistry
         mContext = getTargetContext();
         assertThat(mContext, notNullValue());
     }
 
-    @Test
-    public void verifyResourceString() {
+    public void testVerifyResourceString() {
         assertThat(mContext.getString(R.string.hello_from_the_test_only_module),
                 is(equalTo("Hello from the test only module!")));
     }
